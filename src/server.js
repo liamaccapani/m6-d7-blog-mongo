@@ -1,7 +1,8 @@
-import express from "express"
-import mongoose from "mongoose"
-import listEndpoints from "express-list-endpoints"
-import cors from "cors"
+import express from "express";
+import mongoose from "mongoose";
+import listEndpoints from "express-list-endpoints";
+import cors from "cors";
+import postsRouter from "./services/posts/routes.js";
 
 
 const server = express()
@@ -11,8 +12,7 @@ const port = process.env.PORT || 3001
 
 server.use(cors())
 server.use(express.json())
-
-
+server.use("/blogPosts", postsRouter)
 
 
 mongoose.connect(process.env.MONGO_CONNECTION)
