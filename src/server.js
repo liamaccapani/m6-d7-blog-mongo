@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import listEndpoints from "express-list-endpoints";
 import cors from "cors";
 import postsRouter from "./services/posts/routes.js";
+import { badRequest, notFound, serverError } from "./errorHandlers.js";
 
 
 const server = express()
@@ -15,6 +16,10 @@ server.use(express.json())
 server.use("/blogPosts", postsRouter)
 
 
+server.use(badRequest)
+server.use(notFound)
+server.use(serverError)
+
 mongoose.connect(process.env.MONGO_CONNECTION)
 
 mongoose.connection.on("connected", () => {
@@ -26,5 +31,5 @@ mongoose.connection.on("connected", () => {
 })
 
 mongoose.connection.on("error", err => {
-  console.log(err)
+  console.log("⛔ Server stopped", err)
 })

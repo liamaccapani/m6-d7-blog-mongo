@@ -32,8 +32,7 @@ router.get("/:postId", async (req, res, next) => {
     if (post) {
       res.send(post);
     } else {
-      next(
-      );
+      next(createHttpError(404, `Post with id ${req.params.postId} not found!`));
     }
   } catch (error) {
     console.log(error);
@@ -51,6 +50,7 @@ router.put("/:postId", async (req, res, next) => {
     if (modifiedPost) {
       res.send(modifiedPost);
     } else {
+        next(createHttpError(404, `Post with id ${req.params.postId} not found!`))
     }
   } catch (error) {
     console.log(error);
@@ -66,6 +66,7 @@ router.delete("/:postId", async (req, res, next) => {
     if (deletedPost) {
       res.status(204).send()
     } else {
+        next(createHttpError(404, `Post with id ${req.params.postId} not found!`))
     }
 
   } catch (error) {
