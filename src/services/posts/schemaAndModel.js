@@ -1,22 +1,28 @@
-import { text } from "express";
 import mongoose from "mongoose";
 
 const { Schema, model } = mongoose;
 
 const postSchema = new Schema(
   {
-    category: { type: String, required: true },
-    title: { type: String, required: true },
-    cover: { type: String },
+    category: {type: String, required: true},
+    title: {type: String, required: true},
+    cover: {type: String},
     readTime: {
-      value: { type: Number },
-      unit: { type: String },
+      value: {type: Number},
+      unit: {type: String},
     },
     author: {
-      name: { type: String, required: true },
-      avatar: { type: String },
+      name: {type: String, required: true},
+      avatar: {type: String},
     },
-    content: { type: String },
+    content: {type: String},
+    comments: [
+      {
+        text: String,
+        author: String,
+        rate: Number
+      }
+    ]
   },
   {
     timestamps: true,
