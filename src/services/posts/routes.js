@@ -123,7 +123,20 @@ router.post("/:postId/comments", async(req, res, next) => {
 
 router.get("/:postId/comments/:commentId", async(req, res, next) => {
   try {
-    
+    const post = await PostModel.findById(req.params.postId);
+    if (post) {
+      const comment = post.comments.find( comment => comment._id.toString() === req.params.commentId)
+
+      if (comment){
+        res.send(comment)
+      } else {
+        res.send(`Comment with id ${req.params.commentId} not found!`)
+      }
+
+    } else {
+      next(createHttpError(404, `Post with id ${req.params.postId} not found!`));
+    }
+
   } catch (error) {
     console.log(error)
     next(error)
