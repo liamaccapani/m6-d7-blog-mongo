@@ -129,7 +129,7 @@ router.get("/:postId/comments/:commentId", async(req, res, next) => {
       if (comment){
         res.send(comment)
       } else {
-        res.send(`Comment with id ${req.params.commentId} not found!`)
+        res.send(createHttpError(404, `Comment with id ${req.params.commentId} not found!`))
       }
 
     } else {
@@ -145,7 +145,20 @@ router.get("/:postId/comments/:commentId", async(req, res, next) => {
 
 router.put("/:postId/comments/:commentId", async(req, res, next) => {
   try {
-    
+    const post = await PostModel.findById(req.params.postId)
+    if(post){
+      const commentIndex = post.comments.findIndex(comment => comment._id.toString() === req.params.commentId)
+
+      if(commentIndex !== -1){
+        post.comments[commentIndex] = {...post.comments[commentIndex].toObject(), ...req.body}
+        await post.save()
+        res.send(post)
+
+      } else {
+        next(createHttpError(404, `Comment with id ${req.params.commentId} not found!`))
+      }
+    }
+
   } catch (error) {
     console.log(error)
     next(error)

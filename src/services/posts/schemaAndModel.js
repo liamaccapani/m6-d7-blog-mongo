@@ -19,8 +19,7 @@ const postSchema = new Schema(
     comments: [
       {
         text: String,
-        author: String,
-        rate: Number
+        author: String
       }
     ]
   },
