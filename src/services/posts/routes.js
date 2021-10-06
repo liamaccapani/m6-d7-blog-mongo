@@ -113,7 +113,6 @@ router.post("/:postId/comments", async(req, res, next) => {
 
    } else {
     next(createHttpError(404, `Post with id ${req.params.postId} not found!`));
-
    }
  } catch (error) {
   console.log(error)
@@ -155,7 +154,18 @@ router.put("/:postId/comments/:commentId", async(req, res, next) => {
 
 router.delete("/:postId/comments/:commentId", async(req, res, next) => {
   try {
-    
+    const post = await PostModel.findByIdAndUpdate(
+      req.params.postId,
+      {$pull: {comments: {_id: req.params.commentId}}},
+      {new: true}
+      )
+
+    if(post){
+      res.send(post)
+
+    } else {
+      next(createHttpError(404, `Post with id ${req.params.postId} not found!`));
+    }
   } catch (error) {
     console.log(error)
     next(error)
