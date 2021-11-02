@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import listEndpoints from "express-list-endpoints";
 import cors from "cors";
 import postsRouter from "./services/posts/routes.js";
+import usersRouter from "./services/users/routes.js"
 import { badRequest, notFound, serverError } from "./errorHandlers.js";
 
 
@@ -14,6 +15,7 @@ const port = process.env.PORT || 3001
 server.use(cors())
 server.use(express.json())
 server.use("/blogPosts", postsRouter)
+server.use("/users", usersRouter)
 
 
 server.use(badRequest)
